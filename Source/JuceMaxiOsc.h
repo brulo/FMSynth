@@ -24,6 +24,7 @@ struct JuceMaxiOscVoice : public SynthesiserVoice
     JuceMaxiOscVoice(JuceMaxiOscType oscType)
     {
         m_oscType = oscType;
+        m_trigger = false;
     }
     
     bool canPlaySound(SynthesiserSound* sound) override
@@ -36,6 +37,7 @@ struct JuceMaxiOscVoice : public SynthesiserVoice
     {
         m_osc.phaseReset(0.0);
         m_frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+        m_trigger = true;
     }
     
     void stopNote(float /*velocity*/, bool allowTailOff) override
@@ -70,6 +72,10 @@ struct JuceMaxiOscVoice : public SynthesiserVoice
                     break;
             }
             
+            currentSample = m_env.ar(currentSample, .1, .999, 0.5, m_trigger);
+            
+            if(m_trigger) m_trigger = false;
+
             for(int channelIndex = outputBuffer.getNumChannels(); --channelIndex >= 0;)
             {
                 outputBuffer.addSample(channelIndex, startSample, currentSample);
@@ -81,6 +87,8 @@ struct JuceMaxiOscVoice : public SynthesiserVoice
     
 private:
     maxiOsc m_osc;
+    maxiEnv m_env;
     JuceMaxiOscType m_oscType;
     double m_frequency;
+    bool m_trigger;
 };
