@@ -21,10 +21,12 @@ struct JuceMaxiOscSound : public SynthesiserSound
 
 struct JuceMaxiOscVoice : public SynthesiserVoice
 {
-    JuceMaxiOscVoice(JuceMaxiOscType oscType, double *attack, double *release, long *holdTime)
+    JuceMaxiOscVoice(JuceMaxiOscType oscType, double *attack, double *decay, double *sustain, double *release, long *holdTime)
     {
         m_oscType = oscType;
         m_attack = attack;
+        m_decay = decay;
+        m_sustain = sustain;
         m_release = release;
         m_holdTime = holdTime;
 
@@ -76,7 +78,7 @@ struct JuceMaxiOscVoice : public SynthesiserVoice
                     break;
             }
             
-            currentSample = m_env.ar(currentSample, *m_attack, *m_release, *m_holdTime, m_trigger);
+            currentSample = m_env.adsr(currentSample, *m_attack, *m_decay, *m_sustain, *m_release, *m_holdTime, m_trigger);
             
             if(m_trigger != 0) m_trigger = 0;
 
@@ -90,8 +92,10 @@ struct JuceMaxiOscVoice : public SynthesiserVoice
     }
     
 private:
-    double* m_attack;
-    double* m_release;
+    double *m_attack;
+    double *m_decay;
+    double *m_sustain;
+    double *m_release;
     long* m_holdTime;
     maxiOsc m_osc;
     maxiEnv m_env;

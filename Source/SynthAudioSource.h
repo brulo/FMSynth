@@ -15,12 +15,13 @@
 class SynthAudioSource   : public AudioSource
 {
 public:
-    SynthAudioSource (MidiKeyboardState& keyState, int numVoices, double *attack, double *release, long *holdTime)
+    SynthAudioSource (MidiKeyboardState& keyState, int numVoices,
+                      double *attack, double *decay, double *sustain, double *release, long *holdTime)
     : keyboardState (keyState)
     {
         for(int i = 0; i < numVoices; ++i)
         {
-            synth.addVoice(new JuceMaxiOscVoice(JuceMaxiOscType::Saw, attack, release, holdTime));
+            synth.addVoice(new JuceMaxiOscVoice(JuceMaxiOscType::Saw, attack, decay, sustain, release, holdTime));
         }
         
         synth.addSound(new JuceMaxiOscSound());

@@ -3,7 +3,8 @@
 //==============================================================================
 
 MainComponent::MainComponent() : synthAudioSource  (keyboardState, 4,
-                                                    &m_maxiEnvComponent.m_attack, &m_maxiEnvComponent.m_release,
+                                                    &m_maxiEnvComponent.m_attack, &m_maxiEnvComponent.m_decay,
+                                                    &m_maxiEnvComponent.m_sustain, &m_maxiEnvComponent.m_release,
                                                     &m_maxiEnvComponent.m_holdTime),
                                  keyboardComponent (keyboardState,
                                                     MidiKeyboardComponent::horizontalKeyboard),
@@ -94,6 +95,7 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
 {
     filterAudioSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
     this->sampleRate = sampleRate;
+    maxiSettings::sampleRate = sampleRate;
     filterAudioSource.setCoefficients(IIRCoefficients::makeLowPass(sampleRate, 20000));
 }
 

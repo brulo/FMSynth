@@ -7,6 +7,8 @@ class ADSRComponent : public Component
 {
 public:
     double m_attack = 0.1;
+    double m_decay = 0.1;
+    double m_sustain = 0.5;
     double m_release = 0.999;
     long m_holdTime = 1;
     
@@ -24,7 +26,8 @@ public:
         
         // attack slider
         addAndMakeVisible(m_attackSlider);
-        m_attackSlider.setRange(1, 1000.0);
+        m_attackSlider.setRange(0.1, 1000.0);
+        m_attackSlider.setValue(1.0);
         m_attackSlider.setTextValueSuffix(" Ms");
         m_attackSlider.setNumDecimalPlacesToDisplay(0);
         m_attackSlider.setName("A");
@@ -41,15 +44,17 @@ public:
         
         // decay slider
         addAndMakeVisible(m_decaySlider);
-        m_decaySlider.setRange(1.0, 1000.0);
+        m_decaySlider.setRange(0.1, 1000.0);
+        m_attackSlider.setValue(1.0);
         m_decaySlider.setTextValueSuffix(" Ms");
         m_decaySlider.setNumDecimalPlacesToDisplay(0);
         m_decaySlider.setName("D");
         m_decaySlider.setSliderStyle(sliderStyle);
         m_decaySlider.setTextBoxStyle(showValueText ? Slider::TextBoxBelow : Slider::NoTextBox,
                                       true, textBoxWidth, textBoxHeight);
-        //m_decaySlider.onValueChange = [this] { m_decay = m_decaySlier.getValue(); };
-        
+        m_decaySlider.onValueChange = [this]
+        { m_decay = pow( 0.01, 1.0/(m_decaySlider.getValue() * maxiSettings::sampleRate * 0.001) ); };
+            
         // sustain label
         addAndMakeVisible(m_sustainLabel);
         m_sustainLabel.setText("S", NotificationType::dontSendNotification);
@@ -57,7 +62,8 @@ public:
         
         // sustain slider
         addAndMakeVisible(m_sustainSlider);
-        m_sustainSlider.setRange(1.0, 1000.0);
+        m_sustainSlider.setRange(0.1, 0.75);
+        m_attackSlider.setValue(0.5);
         m_sustainSlider.setTextValueSuffix(" Ms");
         m_sustainSlider.setNumDecimalPlacesToDisplay(0);
         m_sustainSlider.setName("S");
@@ -65,7 +71,7 @@ public:
         m_sustainSlider.setTextBoxStyle(Slider::TextBoxBelow, true, textBoxWidth, textBoxHeight);
         m_sustainSlider.setTextBoxStyle(showValueText ? Slider::TextBoxBelow : Slider::NoTextBox,
                                         true, textBoxWidth, textBoxHeight);
-        //m_sustainSlider.onValueChange = [this]{ m_env.setSustain(m_sustainSlider.getValue()); };
+        m_sustainSlider.onValueChange = [this]{ m_sustain = m_sustainSlider.getValue(); };
         
         // release label
         addAndMakeVisible(m_releaseLabel);
@@ -74,7 +80,8 @@ public:
         
         // release slider
         addAndMakeVisible(m_releaseSlider);
-        m_releaseSlider.setRange(1.0, 1000.0);
+        m_releaseSlider.setRange(0.1, 1000.0);
+        m_releaseSlider.setValue(200.0);
         m_releaseSlider.setTextValueSuffix(" Ms");
         m_releaseSlider.setNumDecimalPlacesToDisplay(0);
         m_releaseSlider.setName("R");
