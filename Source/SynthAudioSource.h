@@ -15,12 +15,12 @@
 class SynthAudioSource   : public AudioSource
 {
 public:
-    SynthAudioSource (MidiKeyboardState& keyState)
+    SynthAudioSource (MidiKeyboardState& keyState, int numVoices, double *attack, double *release, long *holdTime)
     : keyboardState (keyState)
     {
-        for(int i = 0; i < 4; ++i)
+        for(int i = 0; i < numVoices; ++i)
         {
-            synth.addVoice(new JuceMaxiOscVoice(JuceMaxiOscType::Saw));
+            synth.addVoice(new JuceMaxiOscVoice(JuceMaxiOscType::Saw, attack, release, holdTime));
         }
         
         synth.addSound(new JuceMaxiOscSound());
@@ -62,4 +62,7 @@ private:
     MidiKeyboardState& keyboardState;
     Synthesiser synth;
     MidiMessageCollector midiCollector;
+    double m_attack = 0.1;
+    double m_release = 0.9999;
+    long m_holdTime = 1;
 };

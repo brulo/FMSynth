@@ -2,6 +2,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthAudioSource.h"
+#include "ADSRComponent.h"
+#include "Maximilian/maximilian.h"
 
 class MainComponent   : public AudioAppComponent,
                         private Timer
@@ -21,6 +23,7 @@ private:
     MidiKeyboardState keyboardState;
     MidiKeyboardComponent keyboardComponent;
     IIRFilterAudioSource filterAudioSource;
+    ADSRComponent m_maxiEnvComponent;
     
     Slider filterCutoffFreqSlider;
     

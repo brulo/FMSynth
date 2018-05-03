@@ -3,6 +3,7 @@
 <JUCERPROJECT name="FMSyn" projectType="guiapp" jucerVersion="5.3.1" bundleIdentifier="com.brulo.FMSyn">
   <MAINGROUP id="MmF6TH" name="FMSyn">
     <GROUP id="{BBF290F0-BE0F-F396-BEAC-DD713CDADCC2}" name="Source">
+      <FILE id="g5TX1B" name="ADSRComponent.h" compile="0" resource="0" file="Source/ADSRComponent.h"/>
       <FILE id="VZkWnO" name="JuceMaxiOsc.h" compile="0" resource="0" file="Source/JuceMaxiOsc.h"/>
       <GROUP id="{565FF4E9-A0CF-67A2-DC6E-569F3B96AEC3}" name="Maximilian">
         <GROUP id="{DB359C79-0142-FEBF-62F8-E36A6CA2A70F}" name="libs">
@@ -64,7 +65,7 @@
       </MODULEPATHS>
     </XCODE_MAC>
     <XCODE_IPHONE targetFolder="Builds/iOS" iosScreenOrientation="landscape" iPadScreenOrientation="landscape"
-                  iosDeviceFamily="1" microphonePermissionNeeded="0" iosInAppPurchases="0"
+                  iosDeviceFamily="2" microphonePermissionNeeded="0" iosInAppPurchases="0"
                   iosBackgroundAudio="0" iosBackgroundBle="0" iCloudPermissions="0"
                   iosPushNotifications="0" iosDevelopmentTeamID="8PEQQM995W">
       <CONFIGURATIONS>

@@ -21,9 +21,13 @@ struct JuceMaxiOscSound : public SynthesiserSound
 
 struct JuceMaxiOscVoice : public SynthesiserVoice
 {
-    JuceMaxiOscVoice(JuceMaxiOscType oscType)
+    JuceMaxiOscVoice(JuceMaxiOscType oscType, double *attack, double *release, long *holdTime)
     {
         m_oscType = oscType;
+        m_attack = attack;
+        m_release = release;
+        m_holdTime = holdTime;
+
         m_trigger = false;
     }
     
@@ -37,7 +41,7 @@ struct JuceMaxiOscVoice : public SynthesiserVoice
     {
         m_osc.phaseReset(0.0);
         m_frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-        m_trigger = true;
+        m_trigger = 1;
     }
     
     void stopNote(float /*velocity*/, bool allowTailOff) override
@@ -72,9 +76,9 @@ struct JuceMaxiOscVoice : public SynthesiserVoice
                     break;
             }
             
-            currentSample = m_env.ar(currentSample, .1, .999, 0.5, m_trigger);
+            currentSample = m_env.ar(currentSample, *m_attack, *m_release, *m_holdTime, m_trigger);
             
-            if(m_trigger) m_trigger = false;
+            if(m_trigger != 0) m_trigger = 0;
 
             for(int channelIndex = outputBuffer.getNumChannels(); --channelIndex >= 0;)
             {
@@ -86,9 +90,12 @@ struct JuceMaxiOscVoice : public SynthesiserVoice
     }
     
 private:
+    double* m_attack;
+    double* m_release;
+    long* m_holdTime;
     maxiOsc m_osc;
     maxiEnv m_env;
     JuceMaxiOscType m_oscType;
     double m_frequency;
-    bool m_trigger;
+    int m_trigger;
 };
