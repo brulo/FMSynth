@@ -3,10 +3,6 @@
 <JUCERPROJECT name="FMSyn" projectType="guiapp" jucerVersion="5.3.1" bundleIdentifier="com.brulo.FMSyn">
   <MAINGROUP id="MmF6TH" name="FMSyn">
     <GROUP id="{BBF290F0-BE0F-F396-BEAC-DD713CDADCC2}" name="Source">
-      <FILE id="nckCGp" name="ADSRComponent.cpp" compile="1" resource="0"
-            file="Source/ADSRComponent.cpp"/>
-      <FILE id="g5TX1B" name="ADSRComponent.h" compile="0" resource="0" file="Source/ADSRComponent.h"/>
-      <FILE id="VZkWnO" name="JuceMaxiOsc.h" compile="0" resource="0" file="Source/JuceMaxiOsc.h"/>
       <GROUP id="{565FF4E9-A0CF-67A2-DC6E-569F3B96AEC3}" name="Maximilian">
         <GROUP id="{DB359C79-0142-FEBF-62F8-E36A6CA2A70F}" name="libs">
           <FILE id="BRaTCy" name="fft.cpp" compile="1" resource="0" file="Source/Maximilian/libs/fft.cpp"/>
@@ -30,10 +26,14 @@
         <FILE id="e4CsKY" name="stb_vorbis.c" compile="1" resource="0" file="Source/Maximilian/stb_vorbis.c"/>
         <FILE id="mV3gc2" name="stb_vorbis.h" compile="0" resource="0" file="Source/Maximilian/stb_vorbis.h"/>
       </GROUP>
-      <FILE id="N0h4gJ" name="WavetableOscillator.h" compile="0" resource="0"
-            file="Source/WavetableOscillator.h"/>
+      <FILE id="g5TX1B" name="ADSRComponent.h" compile="0" resource="0" file="Source/ADSRComponent.h"/>
+      <FILE id="nckCGp" name="ADSRComponent.cpp" compile="1" resource="0"
+            file="Source/ADSRComponent.cpp"/>
+      <FILE id="VZkWnO" name="JuceMaxiOsc.h" compile="0" resource="0" file="Source/JuceMaxiOsc.h"/>
       <FILE id="gwTRRU" name="SynthAudioSource.h" compile="0" resource="0"
             file="Source/SynthAudioSource.h"/>
+      <FILE id="LSbVR5" name="SynthAudioSource.cpp" compile="1" resource="0"
+            file="Source/SynthAudioSource.cpp"/>
       <FILE id="vB6Cll" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="F086I2" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>

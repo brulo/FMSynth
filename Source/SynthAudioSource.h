@@ -1,64 +1,19 @@
-/*
-  ==============================================================================
-
-    Synth.h
-    Created: 22 Apr 2018 9:39:09pm
-    Author:  brulo
-
-  ==============================================================================
-*/
-
 #pragma once
 #include "JuceMaxiOsc.h"
+#include "../JuceLibraryCode/JuceHeader.h"
 
-//==============================================================================
 class SynthAudioSource   : public AudioSource
 {
 public:
     SynthAudioSource (MidiKeyboardState& keyState, int numVoices,
-                      double *attack, double *decay, double *sustain, double *release, long *holdTime)
-    : keyboardState (keyState)
-    {
-        for(int i = 0; i < numVoices; ++i)
-        {
-            synth.addVoice(new JuceMaxiOscVoice(JuceMaxiOscType::Saw, attack, decay, sustain, release, holdTime));
-        }
-        
-        synth.addSound(new JuceMaxiOscSound());
-    }
+                      double *attack, double *decay, double *sustain, double *release, long *holdTime);
     
-    void setUsingSineWaveSound()
-    {
-        synth.clearSounds();
-    }
-    
-    void prepareToPlay(int /*samplesPerBlockExpected*/, double sampleRate) override
-    {
-        synth.setCurrentPlaybackSampleRate(sampleRate);
-        midiCollector.reset(sampleRate);
-    }
-    
-    void releaseResources() override {}
-    
-    void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) override
-    {
-        bufferToFill.clearActiveBufferRegion();
-        
-        MidiBuffer incomingMidi;
-        midiCollector.removeNextBlockOfMessages(incomingMidi, bufferToFill.numSamples);
-        
-        keyboardState.processNextMidiBuffer(incomingMidi, bufferToFill.startSample,
-                                            bufferToFill.numSamples, true);
-        
-        synth.renderNextBlock(*bufferToFill.buffer, incomingMidi,
-                              bufferToFill.startSample, bufferToFill.numSamples);
-    }
-    
-    MidiMessageCollector* getMidiCollector()
-    {
-        return &midiCollector;
-    }
-    
+    void setUsingSineWaveSound();
+    void prepareToPlay(int /*samplesPerBlockExpected*/, double sampleRate) override;
+    void releaseResources() override;
+    void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) override;
+    MidiMessageCollector* getMidiCollector();
+
 private:
     MidiKeyboardState& keyboardState;
     Synthesiser synth;

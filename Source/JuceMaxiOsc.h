@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Maximilian/maximilian.h"
+#include "../JuceLibraryCode/JuceHeader.h"
 
 enum JuceMaxiOscType
 {
