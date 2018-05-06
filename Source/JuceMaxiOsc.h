@@ -78,6 +78,10 @@ struct JuceMaxiOscVoice : public SynthesiserVoice
                     break;
             }
             
+            // low pass filtering
+            currentSample = m_filt.lopass(currentSample, 0.2);
+            
+            // amp envelope
             currentSample = m_env.adsr(currentSample, *m_attack, *m_decay, *m_sustain, *m_release, *m_holdTime, m_trigger);
             
             if(m_trigger != 0) m_trigger = 0;
@@ -99,6 +103,7 @@ private:
     long* m_holdTime;
     maxiOsc m_osc;
     maxiEnv m_env;
+    maxiFilter m_filt;
     JuceMaxiOscType m_oscType;
     double m_frequency;
     int m_trigger;

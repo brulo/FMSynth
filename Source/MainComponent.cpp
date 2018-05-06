@@ -88,7 +88,9 @@ void MainComponent::resized()
     // test envelope
     auto slice = rect.removeFromTop(100);
     m_maxiEnvComponent.setBounds(slice.removeFromRight((int)(slice.getWidth() * 0.25f)));
-    //filterCutoffFreqSlider.setBounds(10, 0, 200, 50);
+    
+    // filter cutoff
+    filterCutoffFreqSlider.setBounds(slice.removeFromRight((int)slice.getWidth() * 0.25f));
 }
 
 void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRate)
