@@ -1,12 +1,13 @@
 #include "SynthAudioSource.h"
 
-SynthAudioSource::SynthAudioSource (MidiKeyboardState& keyState, int numVoices,
-                                    double *attack, double *decay, double *sustain, double *release, long *holdTime)
+SynthAudioSource::SynthAudioSource (MidiKeyboardState& keyState, int numVoices, PresetData *presetData)
 : keyboardState (keyState)
 {
+    std::cout << "m_presetData.attack: " << presetData->attack << std::endl;
     for(int i = 0; i < numVoices; ++i)
     {
-        synth.addVoice(new JuceMaxiOscVoice(JuceMaxiOscType::Saw, attack, decay, sustain, release, holdTime));
+        synth.addVoice(new JuceMaxiOscVoice(JuceMaxiOscType::Saw, &(presetData->attack), &(presetData->decay),
+                                            &(presetData->sustain), &(presetData->release), &(presetData->holdTime)));
     }
     synth.addSound(new JuceMaxiOscSound());
 }

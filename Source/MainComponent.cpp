@@ -2,13 +2,13 @@
 
 //==============================================================================
 
-MainComponent::MainComponent() : synthAudioSource  (keyboardState, 4,
-                                                    &m_maxiEnvComponent.m_attack, &m_maxiEnvComponent.m_decay,
-                                                    &m_maxiEnvComponent.m_sustain, &m_maxiEnvComponent.m_release,
-                                                    &m_maxiEnvComponent.m_holdTime),
+MainComponent::MainComponent() : m_presetData(),
+                                 synthAudioSource  (keyboardState, 4, &m_presetData),
                                  keyboardComponent (keyboardState,
                                                     MidiKeyboardComponent::horizontalKeyboard),
-                                 filterAudioSource (&synthAudioSource, false)
+                                 filterAudioSource (&synthAudioSource, false),
+                                 m_adsrComponent(&m_presetData.attack, &m_presetData.decay, &m_presetData.sustain,
+                                                 &m_presetData.release, &m_presetData.holdTime)
 {
     // filter cutoff freq slider
     addAndMakeVisible (filterCutoffFreqSlider);
@@ -21,7 +21,7 @@ MainComponent::MainComponent() : synthAudioSource  (keyboardState, 4,
     };
     
     // envelope
-    addAndMakeVisible(m_maxiEnvComponent);
+    addAndMakeVisible(m_adsrComponent);
     
     // midi input list
     addAndMakeVisible (midiInputListLabel);
@@ -87,7 +87,7 @@ void MainComponent::resized()
     
     // test envelope
     auto slice = rect.removeFromTop(100);
-    m_maxiEnvComponent.setBounds(slice.removeFromRight((int)(slice.getWidth() * 0.25f)));
+    m_adsrComponent.setBounds(slice.removeFromRight((int)(slice.getWidth() * 0.25f)));
     
     // filter cutoff
     filterCutoffFreqSlider.setBounds(slice.removeFromRight((int)slice.getWidth() * 0.25f));

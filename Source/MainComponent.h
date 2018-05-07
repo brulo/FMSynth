@@ -19,11 +19,12 @@ public:
     void resized() override;
 
 private:
+    PresetData m_presetData;
     SynthAudioSource synthAudioSource;
     MidiKeyboardState keyboardState;
     MidiKeyboardComponent keyboardComponent;
     IIRFilterAudioSource filterAudioSource;
-    ADSRComponent m_maxiEnvComponent;
+    ADSRComponent m_adsrComponent;
     
     Slider filterCutoffFreqSlider;
     

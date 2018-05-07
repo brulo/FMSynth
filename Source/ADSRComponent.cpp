@@ -1,7 +1,7 @@
 #include "ADSRComponent.h"
 #include "Maximilian/maximilian.h"
 
-ADSRComponent::ADSRComponent()
+ADSRComponent::ADSRComponent(double *attack, double *decay, double *sustain, double *release, long *holdTime)
 {
     const Slider::SliderStyle sliderStyle = Slider::SliderStyle::LinearVertical;
     const int textBoxWidth = 50;
@@ -23,8 +23,8 @@ ADSRComponent::ADSRComponent()
     m_attackSlider.setSliderStyle(sliderStyle);
     m_attackSlider.setTextBoxStyle(showValueText ? Slider::TextBoxBelow : Slider::NoTextBox,
                                    true, textBoxWidth, textBoxHeight);
-    m_attackSlider.onValueChange = [this]
-    { m_attack = 1-pow( 0.01, 1.0 / ( m_attackSlider.getValue() * maxiSettings::sampleRate * 0.001 ) ); };
+    m_attackSlider.onValueChange = [this,attack] () mutable
+    { *attack = 1-pow( 0.01, 1.0 / ( m_attackSlider.getValue() * maxiSettings::sampleRate * 0.001 ) ); };
     
     // decay label
     addAndMakeVisible(m_decayLabel);
@@ -41,8 +41,8 @@ ADSRComponent::ADSRComponent()
     m_decaySlider.setSliderStyle(sliderStyle);
     m_decaySlider.setTextBoxStyle(showValueText ? Slider::TextBoxBelow : Slider::NoTextBox,
                                   true, textBoxWidth, textBoxHeight);
-    m_decaySlider.onValueChange = [this]
-    { m_decay = pow( 0.01, 1.0/(m_decaySlider.getValue() * maxiSettings::sampleRate * 0.001) ); };
+    m_decaySlider.onValueChange = [this,decay] () mutable
+    { *decay = pow( 0.01, 1.0/(m_decaySlider.getValue() * maxiSettings::sampleRate * 0.001) ); };
     
     // sustain label
     addAndMakeVisible(m_sustainLabel);
@@ -60,7 +60,7 @@ ADSRComponent::ADSRComponent()
     m_sustainSlider.setTextBoxStyle(Slider::TextBoxBelow, true, textBoxWidth, textBoxHeight);
     m_sustainSlider.setTextBoxStyle(showValueText ? Slider::TextBoxBelow : Slider::NoTextBox,
                                     true, textBoxWidth, textBoxHeight);
-    m_sustainSlider.onValueChange = [this]{ m_sustain = m_sustainSlider.getValue(); };
+    m_sustainSlider.onValueChange = [this,sustain] () mutable { *sustain = m_sustainSlider.getValue(); };
     
     // release label
     addAndMakeVisible(m_releaseLabel);
@@ -77,8 +77,8 @@ ADSRComponent::ADSRComponent()
     m_releaseSlider.setSliderStyle(sliderStyle);
     m_releaseSlider.setTextBoxStyle(showValueText ? Slider::TextBoxBelow : Slider::NoTextBox,
                                     true, textBoxWidth, textBoxHeight);
-    m_releaseSlider.onValueChange = [this]
-    { m_release = pow( 0.01, 1.0/(m_releaseSlider.getValue() * maxiSettings::sampleRate * 0.001) ); };
+    m_releaseSlider.onValueChange = [this,release] () mutable
+    { *release = pow( 0.01, 1.0/(m_releaseSlider.getValue() * maxiSettings::sampleRate * 0.001) ); };
 }
 
 void ADSRComponent::resized()

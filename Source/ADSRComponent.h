@@ -1,20 +1,15 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Maximilian/maximilian.h"
 
 class ADSRComponent : public Component
 {
 public:
-    ADSRComponent();
+    ADSRComponent(double *attack, double *decay, double *sustain, double *release, long *holdTime);
     //~ADSRComponent();
     
     void resized() override;
-    
-    double m_attack = 0.1;
-    double m_decay = 0.1;
-    double m_sustain = 0.5;
-    double m_release = 0.999;
-    long m_holdTime = 1;
     
 private:
     Slider m_attackSlider, m_decaySlider, m_sustainSlider, m_releaseSlider;
