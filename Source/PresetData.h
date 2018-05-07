@@ -2,15 +2,17 @@
 
 struct PresetData
 {
-    double attack, decay, sustain, release;
-    long holdTime;
+    double ampAttack, ampDecay, ampSustain, ampRelease;
+    double filterCutoff;
+    long ampHoldTime;
     
     PresetData()
     {
-        attack = 0.1;
-        decay = 0.1;
-        sustain = 0.5;
-        release = 0.999;
-        holdTime = 1;
+        ampAttack = 0.1;
+        ampDecay = 0.1;
+        ampSustain = 0.5;
+        ampRelease = 0.999;
+        ampHoldTime = 7000;
+        filterCutoff = 20000.0;
     }
 };

@@ -3,11 +3,11 @@
 SynthAudioSource::SynthAudioSource (MidiKeyboardState& keyState, int numVoices, PresetData *presetData)
 : keyboardState (keyState)
 {
-    std::cout << "m_presetData.attack: " << presetData->attack << std::endl;
     for(int i = 0; i < numVoices; ++i)
     {
-        synth.addVoice(new JuceMaxiOscVoice(JuceMaxiOscType::Saw, &(presetData->attack), &(presetData->decay),
-                                            &(presetData->sustain), &(presetData->release), &(presetData->holdTime)));
+        synth.addVoice(new JuceMaxiOscVoice(JuceMaxiOscType::Saw, &(presetData->ampAttack), &(presetData->ampDecay),
+                                            &(presetData->ampSustain), &(presetData->ampRelease), &(presetData->ampHoldTime),
+                                            &(presetData->filterCutoff)));
     }
     synth.addSound(new JuceMaxiOscSound());
 }
@@ -25,7 +25,6 @@ void SynthAudioSource::prepareToPlay(int /*samplesPerBlockExpected*/, double sam
     
 void SynthAudioSource::releaseResources()
 {
-    
 }
     
 void SynthAudioSource::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill)

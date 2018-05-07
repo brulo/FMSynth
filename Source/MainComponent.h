@@ -4,6 +4,7 @@
 #include "SynthAudioSource.h"
 #include "ADSRComponent.h"
 #include "Maximilian/maximilian.h"
+#include "FilterComponent.h"
 
 class MainComponent   : public AudioAppComponent,
                         private Timer
@@ -23,10 +24,8 @@ private:
     SynthAudioSource synthAudioSource;
     MidiKeyboardState keyboardState;
     MidiKeyboardComponent keyboardComponent;
-    IIRFilterAudioSource filterAudioSource;
     ADSRComponent m_adsrComponent;
-    
-    Slider filterCutoffFreqSlider;
+    FilterComponent m_filterComponent;
     
     double sampleRate;
     
@@ -36,7 +35,6 @@ private:
     
     void setMidiInput(int index);
     void timerCallback() override;
-
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

@@ -27,15 +27,18 @@
         <FILE id="mV3gc2" name="stb_vorbis.h" compile="0" resource="0" file="Source/Maximilian/stb_vorbis.h"/>
       </GROUP>
       <FILE id="SkIJWm" name="PresetData.h" compile="0" resource="0" file="Source/PresetData.h"/>
-      <FILE id="Cmx3jQ" name="PresetData.cpp" compile="1" resource="0" file="Source/PresetData.cpp"/>
-      <FILE id="g5TX1B" name="ADSRComponent.h" compile="0" resource="0" file="Source/ADSRComponent.h"/>
-      <FILE id="nckCGp" name="ADSRComponent.cpp" compile="1" resource="0"
-            file="Source/ADSRComponent.cpp"/>
       <FILE id="VZkWnO" name="JuceMaxiOsc.h" compile="0" resource="0" file="Source/JuceMaxiOsc.h"/>
       <FILE id="gwTRRU" name="SynthAudioSource.h" compile="0" resource="0"
             file="Source/SynthAudioSource.h"/>
       <FILE id="LSbVR5" name="SynthAudioSource.cpp" compile="1" resource="0"
             file="Source/SynthAudioSource.cpp"/>
+      <FILE id="g5TX1B" name="ADSRComponent.h" compile="0" resource="0" file="Source/ADSRComponent.h"/>
+      <FILE id="nckCGp" name="ADSRComponent.cpp" compile="1" resource="0"
+            file="Source/ADSRComponent.cpp"/>
+      <FILE id="HfhlOy" name="FilterComponent.cpp" compile="1" resource="0"
+            file="Source/FilterComponent.cpp"/>
+      <FILE id="GdDqYE" name="FilterComponent.h" compile="0" resource="0"
+            file="Source/FilterComponent.h"/>
       <FILE id="vB6Cll" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="F086I2" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>

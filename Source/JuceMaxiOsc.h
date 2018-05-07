@@ -22,7 +22,7 @@ struct JuceMaxiOscSound : public SynthesiserSound
 
 struct JuceMaxiOscVoice : public SynthesiserVoice
 {
-    JuceMaxiOscVoice(JuceMaxiOscType oscType, double *attack, double *decay, double *sustain, double *release, long *holdTime)
+    JuceMaxiOscVoice(JuceMaxiOscType oscType, double *attack, double *decay, double *sustain, double *release, long *holdTime, double *filterCutoff)
     {
         m_oscType = oscType;
         m_attack = attack;
@@ -30,6 +30,7 @@ struct JuceMaxiOscVoice : public SynthesiserVoice
         m_sustain = sustain;
         m_release = release;
         m_holdTime = holdTime;
+        m_filterCutoff = filterCutoff;
 
         m_trigger = false;
     }
@@ -59,7 +60,7 @@ struct JuceMaxiOscVoice : public SynthesiserVoice
     {
         while(--numSamples >= 0)
         {
-            float currentSample;
+            double currentSample;
             switch(m_oscType)
             {
                 case JuceMaxiOscType::Saw:
@@ -78,12 +79,13 @@ struct JuceMaxiOscVoice : public SynthesiserVoice
                     currentSample = (float)m_osc.triangle(m_frequency);
                     break;
             }
-            
             // low pass filtering
-            currentSample = m_filt.lopass(currentSample, 0.2);
+            currentSample = m_filt.lopass(currentSample, *m_filterCutoff);
             
             // amp envelope
             currentSample = m_env.adsr(currentSample, *m_attack, *m_decay, *m_sustain, *m_release, *m_holdTime, m_trigger);
+            
+            currentSample *= 20.0;
             
             if(m_trigger != 0) m_trigger = 0;
 
@@ -101,6 +103,7 @@ private:
     double *m_decay;
     double *m_sustain;
     double *m_release;
+    double *m_filterCutoff;
     long* m_holdTime;
     maxiOsc m_osc;
     maxiEnv m_env;

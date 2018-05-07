@@ -15,10 +15,6 @@ public:
     MidiMessageCollector* getMidiCollector();
 
 private:
-    double m_attack = 0.1;
-    double m_release = 0.9999;
-    long m_holdTime = 1;
-    
     MidiKeyboardState& keyboardState;
     Synthesiser synth;
     MidiMessageCollector midiCollector;

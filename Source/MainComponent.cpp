@@ -6,19 +6,11 @@ MainComponent::MainComponent() : m_presetData(),
                                  synthAudioSource  (keyboardState, 4, &m_presetData),
                                  keyboardComponent (keyboardState,
                                                     MidiKeyboardComponent::horizontalKeyboard),
-                                 filterAudioSource (&synthAudioSource, false),
-                                 m_adsrComponent(&m_presetData.attack, &m_presetData.decay, &m_presetData.sustain,
-                                                 &m_presetData.release, &m_presetData.holdTime)
+                                 m_adsrComponent(&m_presetData.ampAttack, &m_presetData.ampDecay, &m_presetData.ampSustain,
+                                                 &m_presetData.ampRelease, &m_presetData.ampHoldTime),
+                                 m_filterComponent(&m_presetData.filterCutoff)
 {
-    // filter cutoff freq slider
-    addAndMakeVisible (filterCutoffFreqSlider);
-    filterCutoffFreqSlider.setRange (20.0, 20000.0);
-    filterCutoffFreqSlider.setTextValueSuffix (" Hz");
-    filterCutoffFreqSlider.onValueChange = [this]
-    {
-        IIRCoefficients coef = IIRCoefficients::makeLowPass(sampleRate, filterCutoffFreqSlider.getValue());
-        filterAudioSource.setCoefficients(coef);
-    };
+    addAndMakeVisible(m_filterComponent);
     
     // envelope
     addAndMakeVisible(m_adsrComponent);
@@ -90,25 +82,24 @@ void MainComponent::resized()
     m_adsrComponent.setBounds(slice.removeFromRight((int)(slice.getWidth() * 0.25f)));
     
     // filter cutoff
-    filterCutoffFreqSlider.setBounds(slice.removeFromRight((int)slice.getWidth() * 0.25f));
+    m_filterComponent.setBounds(slice.removeFromRight((int)slice.getWidth() * 0.25f));
 }
 
 void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRate)
 {
-    filterAudioSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
     this->sampleRate = sampleRate;
     maxiSettings::sampleRate = sampleRate;
-    filterAudioSource.setCoefficients(IIRCoefficients::makeLowPass(sampleRate, 20000));
+    synthAudioSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill)
 {
-    filterAudioSource.getNextAudioBlock (bufferToFill);
+    synthAudioSource.getNextAudioBlock (bufferToFill);
 }
 
 void MainComponent::releaseResources()
 {
-    filterAudioSource.releaseResources();
+    synthAudioSource.releaseResources();
 }
 
 void MainComponent::timerCallback()
